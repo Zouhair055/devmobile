@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "133774609701",
+    "project_id": "vintedia-app",
+    "storage_bucket": "vintedia-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133774609701:android:d31fb9ad8c892619635ecc",
+        "android_client_info": {
+          "package_name": "com.clothesapp.vintedia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlgPz0JU_4kJHMAUzlAq3lXtM1are2f1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133774609701:android:36ef4e6d4ffc7907635ecc",
+        "android_client_info": {
+          "package_name": "com.vintedia.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlgPz0JU_4kJHMAUzlAq3lXtM1are2f1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
