@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home_page.dart';
 import 'theme.dart';
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      print('Recherche de l\'utilisateur dans Firestore...');
+      // Récupérez l'email associé au login depuis Firestore
       final QuerySnapshot result = await FirebaseFirestore.instance
           .collection('users')
           .where('login', isEqualTo: login)
@@ -40,7 +41,16 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       final userDocument = result.docs.first;
-      final storedPassword = userDocument['password'];
+      final userData = userDocument.data() as Map<String, dynamic>;
+      if (userData == null || !userData.containsKey('email')) {
+        setState(() {
+          _errorMessage = 'Le champ "email" n\'existe pas dans le document.';
+        });
+        return;
+      }
+
+      final email = userData['email'];
+      final storedPassword = userData['password'];
 
       // Vérifiez si le mot de passe correspond
       if (storedPassword != password) {
@@ -50,18 +60,27 @@ class _LoginPageState extends State<LoginPage> {
         return;
       }
 
-      // Si le mot de passe est correct, vous redirigez vers la page d'accueil
-      print('Utilisateur connecté avec succès : ${userDocument.id}');
+      // Authentifiez l'utilisateur avec Firebase Authentication en utilisant l'email et le mot de passe
+      UserCredential emailUserCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      print('Utilisateur connecté avec succès : ${emailUserCredential.user?.uid}');
 
       // Redirection vers la page d'accueil
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage(user: emailUserCredential.user!)),
       );
 
     } catch (e) {
       setState(() {
-        _errorMessage = 'Erreur de connexion : $e';
+        if (e is FirebaseAuthException) {
+          _errorMessage = 'Erreur de connexion : ${e.message}';
+        } else {
+          _errorMessage = 'Erreur de connexion : $e';
+        }
       });
       print('Erreur de connexion : $e'); // Affichez l'erreur dans la console pour le débogage
     }
