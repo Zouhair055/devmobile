@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home_page.dart';
 import 'theme.dart';
@@ -41,40 +40,30 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       final userDocument = result.docs.first;
-      final email = userDocument['email'];
-      print('Utilisateur trouvé avec email: $email');
+      final storedPassword = userDocument['password'];
 
-      // Impression des détails de connexion
-      print('Tentative de connexion avec email: $email et mot de passe: $password');
+      // Vérifiez si le mot de passe correspond
+      if (storedPassword != password) {
+        setState(() {
+          _errorMessage = 'Mot de passe incorrect.';
+        });
+        return;
+      }
 
-      // Connexion avec Firebase Auth
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      print('Utilisateur connecté avec succès : ${userCredential.user?.uid}');
+      // Si le mot de passe est correct, vous redirigez vers la page d'accueil
+      print('Utilisateur connecté avec succès : ${userDocument.id}');
 
       // Redirection vers la page d'accueil
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
+
     } catch (e) {
-      String errorMessage;
-
-      if (e is FirebaseAuthException) {
-        errorMessage = 'Erreur de connexion : ${e.code} - ${e.message}';
-      } else {
-        errorMessage = 'Erreur de connexion : $e';
-      }
-
-      // Mettez à jour le message d'erreur à afficher
       setState(() {
-        _errorMessage = errorMessage;
+        _errorMessage = 'Erreur de connexion : $e';
       });
-
-      print(errorMessage); // Affichez l'erreur dans la console pour le débogage
+      print('Erreur de connexion : $e'); // Affichez l'erreur dans la console pour le débogage
     }
   }
 
@@ -114,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                     labelStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     border: OutlineInputBorder(),
                   ),
+                  onSubmitted: (value) => _login(context),
                 ),
                 SizedBox(height: 20),
                 TextField(
@@ -124,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
+                  onSubmitted: (value) => _login(context),
                 ),
                 SizedBox(height: 30),
                 ElevatedButton(
@@ -138,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                if (_errorMessage != null) // Affiche le message d'erreur si disponible
+                if (_errorMessage != null)
                   Text(
                     _errorMessage!,
                     style: TextStyle(color: Colors.red, fontSize: 16),

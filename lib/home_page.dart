@@ -3,23 +3,39 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login_page.dart'; // Assurez-vous que ce chemin d'importation est correct pour votre page de connexion
 import 'theme.dart';
+import 'detail_page.dart'; // Créez cette nouvelle page pour les détails
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 2) {
+      _showProfileDialog(context); // Ouvre le profil si l'utilisateur appuie sur l'icône Profil
+    }
+  }
 
   void _showProfileDialog(BuildContext context) async {
     User? user = _auth.currentUser;
 
     if (user == null) {
-      // Si l'utilisateur n'est pas connecté, retournez.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Vous devez être connecté pour voir le profil.')),
+      );
       return;
     }
 
-    // Utiliser l'email pour récupérer le document de l'utilisateur
     String userEmail = user.email ?? '';
-    
-    // Récupérer les informations de l'utilisateur depuis Firestore
     QuerySnapshot userQuery = await _firestore.collection('users').where('email', isEqualTo: userEmail).get();
 
     if (userQuery.docs.isEmpty) {
@@ -27,7 +43,6 @@ class HomePage extends StatelessWidget {
       return;
     }
 
-    // Si le document existe, récupérer le nom
     DocumentSnapshot userDoc = userQuery.docs.first;
     String userName = userDoc['login'] ?? 'Nom inconnu';
 
@@ -43,11 +58,11 @@ class HomePage extends StatelessWidget {
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
-                  await _auth.signOut(); // Déconnexion de l'utilisateur
-                  Navigator.of(context).pop(); // Ferme la boîte de dialogue
+                  await _auth.signOut();
+                  Navigator.of(context).pop();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginPage()), // Remplacez par le nom de votre page de connexion
+                    MaterialPageRoute(builder: (context) => LoginPage()),
                   );
                 },
                 child: Text('Déconnexion'),
@@ -57,7 +72,7 @@ class HomePage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Ferme la boîte de dialogue
+                Navigator.of(context).pop();
               },
               child: Text('Annuler'),
             ),
@@ -71,18 +86,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          children: [
-            Text(
-              'VintedIA',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
-              ),
-            ),
-          ],
-        ),
+        title: Text('VintedIA'),
         centerTitle: true,
       ),
       body: Stack(
@@ -128,44 +132,24 @@ class HomePage extends StatelessWidget {
                           final doc = vetements[index];
                           final nom = doc['nom'] ?? 'Nom inconnu';
                           final prix = doc['prix'] ?? 'N/A';
-                          final description = doc['description'] ?? 'Pas de description';
-                          final stock = doc['stock'] ?? 'Stock indisponible';
                           final taille = doc['taille'] ?? 'Taille inconnue';
-                          final couleur = doc['couleur'] ?? 'Couleur inconnue';
                           final imageUrl = doc['imageUrl'];
 
                           return Card(
                             child: ListTile(
+                              leading: imageUrl != null
+                                  ? Image.network(imageUrl, width: 50, height: 50, fit: BoxFit.cover)
+                                  : Icon(Icons.image_not_supported),
                               title: Text(nom),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: 100,
-                                        height: 100,
-                                        child: imageUrl != null
-                                            ? Image.network(imageUrl, fit: BoxFit.cover)
-                                            : Icon(Icons.image_not_supported),
-                                      ),
-                                      SizedBox(width: 16),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text('Prix : $prix€'),
-                                            Text('Description : $description'),
-                                            Text('Taille : $taille'),
-                                            Text('Stock : $stock'),
-                                            Text('Couleur : $couleur'),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                              subtitle: Text('Taille: $taille, Prix: $prix€'),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailPage(vetementId: doc.id),
                                   ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
                           );
                         },
@@ -176,40 +160,27 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
-          // Boutons en bas de la page
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Logique pour acheter
-                    },
-                    icon: Icon(Icons.attach_money),
-                    label: Text('Acheter'),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Logique pour le panier
-                    },
-                    icon: Icon(Icons.local_mall),
-                    label: Text('Panier'),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      _showProfileDialog(context); // Ouvre le dialogue de profil
-                    },
-                    icon: Icon(Icons.person),
-                    label: Text('Profil'),
-                  ),
-                ],
-              ),
-            ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_bag),
+            label: 'Acheter',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_mall),
+            label: 'Panier',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
       ),
     );
   }
