@@ -19,7 +19,7 @@ class _PanierPageState extends State<PanierPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mon panier'),
+        title: Text('Mon panier', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: Stack(
         children: [
@@ -62,8 +62,8 @@ class _PanierPageState extends State<PanierPage> {
                           leading: imageUrl != null
                               ? Image.network(imageUrl, width: 50, height: 50)
                               : Icon(Icons.image_not_supported),
-                          title: Text(titre),
-                          subtitle: Text('Taille : $taille\nPrix : $prix€'),
+                          title: Text(titre, style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text('Taille : $taille\nPrix : $prix€', style: TextStyle(fontWeight: FontWeight.bold)),
                           trailing: IconButton(
                             icon: Icon(Icons.remove_circle_outline),
                             onPressed: () => _retirerDuPanier(context, vetementId),

@@ -135,7 +135,7 @@ class VetementsPage extends StatelessWidget {
                       leading: imageUrl != null
                           ? Image.network(imageUrl, width: 50, height: 50, fit: BoxFit.cover)
                           : Icon(Icons.image_not_supported),
-                      title: Text(nom),
+                      title: Text(nom, style: TextStyle(fontWeight: FontWeight.bold)),
                       subtitle: Text('Taille: $taille, Prix: $prix€'),
                       onTap: () {
                         Navigator.push(

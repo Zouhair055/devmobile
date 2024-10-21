@@ -23,7 +23,7 @@ class DetailPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          BackgroundWithIcons(),  // Application du fond d'écran avec les icônes
+          BackgroundWithIcons(), // Application du fond d'écran avec les icônes
           FutureBuilder<DocumentSnapshot>(
             future: FirebaseFirestore.instance.collection('vetements').doc(vetementId).get(),
             builder: (context, snapshot) {
@@ -49,23 +49,33 @@ class DetailPage extends StatelessWidget {
               final description = vetement['description'] ?? 'Pas de description';
 
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0), 
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start, // Place tout en haut
+                  crossAxisAlignment: CrossAxisAlignment.center, // Centre l'ensemble horizontalement
                   children: [
                     imageUrl != null
                         ? Image.network(imageUrl, width: 200, height: 200, fit: BoxFit.cover)
                         : Icon(Icons.image_not_supported, size: 200),
                     SizedBox(height: 16),
-                    Text(nom, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 8),
-                    Text('Catégorie : $categorie'),
-                    SizedBox(height: 8),
-                    Text('Marque : $marque'),
-                    SizedBox(height: 8),
-                    Text('Taille : $taille'),
-                    SizedBox(height: 8),
-                    Text('Prix : $prix€'),
+                    // Encapsuler les détails dans un conteneur centré avec texte justifié à gauche
+                    Container(
+                      width: double.infinity, // Pour que l'ensemble prenne toute la largeur
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start, // Alignement à gauche des détails
+                        children: [
+                          Text(nom, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text('Catégorie : $categorie', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text('Marque : $marque', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text('Taille : $taille', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(height: 8),
+                          Text('Prix : $prix€', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
@@ -109,4 +119,3 @@ class DetailPage extends StatelessWidget {
     }
   }
 }
-
