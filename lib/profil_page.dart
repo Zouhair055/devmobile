@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
 import 'ajoutervetement_page.dart'; // Assurez-vous que le chemin est correct
 import 'theme.dart';
+
+
 class ProfilPage extends StatefulWidget {
   final User user;
 

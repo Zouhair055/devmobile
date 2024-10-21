@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert'; // Pour la conversion en base64
+import 'dart:html' as html; // Import spécifique pour Flutter Web
 
 class AjouterVetementPage extends StatefulWidget {
   @override
@@ -8,49 +10,61 @@ class AjouterVetementPage extends StatefulWidget {
 }
 
 class _AjouterVetementPageState extends State<AjouterVetementPage> {
-  final TextEditingController _titreController = TextEditingController();
+  final TextEditingController _nomController = TextEditingController();
   final TextEditingController _tailleController = TextEditingController();
   final TextEditingController _marqueController = TextEditingController();
   final TextEditingController _prixController = TextEditingController();
-  String? _categorie; // Catégorie qui sera définie lors du téléchargement de l'image
-  XFile? _image; // Pour stocker l'image sélectionnée
+  final TextEditingController _descriptionController = TextEditingController();
+  String? _categorie;
+  XFile? _image;
+  String? _imageBase64;
 
   Future<void> _pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    // Afficher un sélecteur d'image et obtenir le fichier
     _image = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      // Définir la catégorie en fonction de l'image téléchargée (ajustez ceci selon vos besoins)
-      _categorie = 'Pantalon'; // Exemple statique ; à modifier selon la logique de votre application
-    });
+
+    if (_image != null) {
+      // Lecture des données de l'image directement en base64 pour Flutter Web
+      final bytes = await _image!.readAsBytes();
+      _imageBase64 = 'data:image/webp;base64,' + base64Encode(bytes);
+
+      setState(() {
+        _categorie = 'Pantalon';
+        print("Image sélectionnée et convertie en base64");
+      });
+    } else {
+      print("Aucune image sélectionnée");
+    }
   }
 
   void _ajouterVetement() async {
-    if (_titreController.text.isNotEmpty &&
+    // Définir la description à une chaîne vide
+    _descriptionController.text = '';
+
+    if (_nomController.text.isNotEmpty &&
         _tailleController.text.isNotEmpty &&
         _marqueController.text.isNotEmpty &&
         _prixController.text.isNotEmpty &&
         _categorie != null &&
-        _image != null) {
-      // Ajouter le vêtement à Firestore
+        _imageBase64 != null) {
       await FirebaseFirestore.instance.collection('vetements').add({
-        'titre': _titreController.text,
-        'categorie': _categorie, // Défini après le téléchargement de l'image
+        'nom': _nomController.text,
+        'description': _descriptionController.text, // Ajouter la description vide
+        'categorie': _categorie,
         'taille': _tailleController.text,
         'marque': _marqueController.text,
         'prix': double.tryParse(_prixController.text) ?? 0.0,
-        // Ajouter d'autres champs nécessaires, par exemple pour l'image
-        'imageURL': _image!.path, // Utilisez une méthode d'upload si nécessaire
+        'imageUrl': _imageBase64,
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Vêtement ajouté avec succès')),
       );
-
-      Navigator.of(context).pop(); // Retour à la page de profil
+      Navigator.of(context).pop();
     } else {
+      print('Champs manquants ou image non sélectionnée');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Veuillez remplir tous les champs')),
+        SnackBar(content: Text('Veuillez remplir tous les champs et ajouter une image')),
       );
     }
   }
@@ -68,8 +82,8 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                controller: _titreController,
-                decoration: InputDecoration(labelText: 'Titre'),
+                controller: _nomController,
+                decoration: InputDecoration(labelText: 'Nom'),
               ),
               SizedBox(height: 16),
               TextField(
@@ -88,7 +102,6 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
                 decoration: InputDecoration(labelText: 'Prix'),
               ),
               SizedBox(height: 16),
-              // Bouton pour uploader une image
               ElevatedButton(
                 onPressed: _pickImage,
                 child: Text('Télécharger une Image'),
