@@ -41,8 +41,7 @@ class DetailPage extends StatelessWidget {
 
               final vetement = snapshot.data!;
               final nom = vetement['nom'] ?? 'Nom inconnu';
-              final prixString = vetement['prix'] ?? '0.0'; // Assurez-vous d'avoir une valeur par défaut
-              final prix = double.tryParse(prixString.toString()) ?? 0.0; // Convertir en double
+              final prix = double.tryParse(vetement['prix']?.toString() ?? '0') ?? 0.0; 
               final taille = vetement['taille'] ?? 'Taille inconnue';
               final categorie = vetement['categorie'] ?? 'Catégorie inconnue';
               final marque = vetement['marque'] ?? 'Marque inconnue';
@@ -70,7 +69,7 @@ class DetailPage extends StatelessWidget {
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        _ajouterAuPanier(context, vetementId, nom, taille, prix, imageUrl);  // Passer les informations du vêtement
+                        _ajouterAuPanier(context, vetementId, nom, taille, prix, imageUrl);
                       },
                       child: Text('Ajouter au panier'),
                     ),
@@ -86,7 +85,6 @@ class DetailPage extends StatelessWidget {
 
   void _ajouterAuPanier(BuildContext context, String vetementId, String nom, String taille, double prix, String? imageUrl) async {
     try {
-      // Ajoutez l'article au panier avec toutes les informations
       await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
@@ -111,3 +109,4 @@ class DetailPage extends StatelessWidget {
     }
   }
 }
+

@@ -5,6 +5,7 @@ import 'login_page.dart'; // Assurez-vous que ce chemin d'importation est correc
 import 'theme.dart';
 import 'detail_page.dart'; // Créez cette nouvelle page pour les détails
 import 'panier_page.dart'; // Assurez-vous que ce chemin d'importation est correct
+import 'profil_page.dart'; // Assurez-vous que le chemin d'importation est correct pour votre page de profil
 
 class HomePage extends StatefulWidget {
   final User user;
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     _pages = [
       VetementsPage(user: widget.user), // Ajoutez l'utilisateur si nécessaire
       PanierPage(user: widget.user), // Page Panier
-      ProfilPage(), // Page de profil temporaire
+      ProfilPage(user: widget.user), // Page de profil avec l'utilisateur
     ];
   }
 
@@ -38,63 +39,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  void _showProfileDialog(BuildContext context) async {
-    User? user = _auth.currentUser;
-
-    if (user == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Vous devez être connecté pour voir le profil.')),
-      );
-      return;
-    }
-
-    String userEmail = user.email ?? '';
-    QuerySnapshot userQuery = await _firestore.collection('users').where('email', isEqualTo: userEmail).get();
-
-    if (userQuery.docs.isEmpty) {
-      print("Le document de l'utilisateur n'existe pas.");
-      return;
-    }
-
-    DocumentSnapshot userDoc = userQuery.docs.first;
-    String userName = userDoc['login'] ?? 'Nom inconnu';
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Profil'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text('Nom : $userName'),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  await _auth.signOut();
-                  Navigator.of(context).pop();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                child: Text('Déconnexion'),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Annuler'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -133,15 +77,6 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
-    );
-  }
-}
-
-class ProfilPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Page de profil à venir !'),
     );
   }
 }
