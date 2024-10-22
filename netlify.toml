@@ -1,0 +1,9 @@
+[build]
+  command = "./netlify_build.sh"
+  publish = "build/web"
+
+[build.environment]
+  PATH = "/opt/buildhome/flutter/bin:/opt/buildhome/flutter/bin/cache/dart-sdk/bin:$PATH"
+
+[[plugins]]
+  package = "@netlify/plugin-functions-install-core"
