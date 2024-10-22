@@ -1,9 +1,7 @@
 [build]
-  command = "./netlify_build.sh"
+  base = "focal" # Utilise l'image de build Ubuntu 20.04 focal
   publish = "build/web"
+  command = "./netlify_build.sh"
 
-[build.environment]
-  PATH = "/opt/buildhome/flutter/bin:/opt/buildhome/flutter/bin/cache/dart-sdk/bin:$PATH"
-
-[[plugins]]
-  package = "@netlify/plugin-functions-install-core"
+[context.production.environment]
+  PYTHON_VERSION = "3.8"  # Spécifie la version de Python nécessaire

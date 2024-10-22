@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Installer les outils nécessaires
+apt-get update && apt-get install -y wget xz-utils
+
 # Télécharger et installer Flutter
 echo "Downloading Flutter SDK..."
 wget https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.3.10-stable.tar.xz
@@ -14,6 +17,3 @@ flutter pub get
 
 # Construire l'application web
 flutter build web
-
-# Sortir du script si une commande échoue
-set -e
