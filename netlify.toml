@@ -1,5 +1,4 @@
 [build]
-  base = "focal" # Utilise l'image de build Ubuntu 20.04 focal
   publish = "build/web"
   command = "./netlify_build.sh"
 

@@ -17,3 +17,9 @@ flutter pub get
 
 # Construire l'application web
 flutter build web
+
+# Vérifier si le répertoire de publication existe
+if [ ! -d "build/web" ]; then
+  echo "Le répertoire build/web n'a pas été créé."
+  exit 1
+fi
