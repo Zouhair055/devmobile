@@ -3,8 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login_page.dart';
 import 'ajoutervetement_page.dart'; // Assurez-vous que le chemin est correct
-import 'theme.dart';
-
+import 'theme.dart'; // Importez le fichier theme.dart
 
 class ProfilPage extends StatefulWidget {
   final User user;
@@ -166,61 +165,170 @@ class _ProfilPageState extends State<ProfilPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start, // Alignement à gauche des détails
                     children: [
-                      Text(
-                        'Login : $login',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          'Login : $login',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
                       ),
                       SizedBox(height: 16),
-                      Text(
-                        'Mot de passe :',
-                        style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
-                      ),
-                      TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(hintText: '********'),
-                        enabled: isEditing,
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Anniversaire :',
-                        style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
-                      ),
-                      TextField(
-                        controller: _anniversaireController,
-                        decoration: InputDecoration(),
-                        enabled: isEditing,
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Adresse :',
-                        style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
-                      ),
-                      TextField(
-                        controller: _adresseController,
-                        decoration: InputDecoration(),
-                        enabled: isEditing,
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'Code postal :',
-                        style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
-                      ),
-                      TextField(
-                        controller: _codePostalController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(),
-                        enabled: isEditing,
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Mot de passe :',
+                              style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                            ),
+                            TextField(
+                              controller: _passwordController,
+                              obscureText: true,
+                              decoration: InputDecoration(hintText: '********'),
+                              enabled: isEditing,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16),
-                      Text(
-                        'Ville :',
-                        style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Anniversaire :',
+                              style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                            ),
+                            TextField(
+                              controller: _anniversaireController,
+                              decoration: InputDecoration(),
+                              enabled: isEditing,
+                            ),
+                          ],
+                        ),
                       ),
-                      TextField(
-                        controller: _villeController,
-                        decoration: InputDecoration(),
-                        enabled: isEditing,
+                      SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Adresse :',
+                              style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                            ),
+                            TextField(
+                              controller: _adresseController,
+                              decoration: InputDecoration(),
+                              enabled: isEditing,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Code postal :',
+                              style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                            ),
+                            TextField(
+                              controller: _codePostalController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(),
+                              enabled: isEditing,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 4.0,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ville :',
+                              style: TextStyle(fontWeight: FontWeight.bold), // Mettre le texte en gras
+                            ),
+                            TextField(
+                              controller: _villeController,
+                              decoration: InputDecoration(),
+                              enabled: isEditing,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(height: 16),
                       // Ajout d'une Row pour organiser les boutons

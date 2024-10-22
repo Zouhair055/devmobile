@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert'; // Pour la conversion en base64
 import 'dart:html' as html; // Import spécifique pour Flutter Web
+import 'theme.dart'; // Importez le fichier theme.dart
 
 class AjouterVetementPage extends StatefulWidget {
   @override
@@ -75,45 +76,106 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
       appBar: AppBar(
         title: Text('Ajouter un Vêtement'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: _nomController,
-                decoration: InputDecoration(labelText: 'Nom'),
+      body: Stack(
+        children: [
+          BackgroundWithIcons(), // Application du fond d'écran avec les icônes
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _nomController,
+                      decoration: InputDecoration(labelText: 'Nom'),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _tailleController,
+                      decoration: InputDecoration(labelText: 'Taille'),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _marqueController,
+                      decoration: InputDecoration(labelText: 'Marque'),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 4.0,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: TextField(
+                      controller: _prixController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: 'Prix'),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _pickImage,
+                    child: Text('Télécharger une Image'),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _ajouterVetement,
+                    child: Text('Valider'),
+                  ),
+                ],
               ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _tailleController,
-                decoration: InputDecoration(labelText: 'Taille'),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _marqueController,
-                decoration: InputDecoration(labelText: 'Marque'),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _prixController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Prix'),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _pickImage,
-                child: Text('Télécharger une Image'),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _ajouterVetement,
-                child: Text('Valider'),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
