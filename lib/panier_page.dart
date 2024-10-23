@@ -58,15 +58,30 @@ class _PanierPageState extends State<PanierPage> {
                         final prix = vetement['prix'] ?? 0;
                         final imageUrl = vetement['imageUrl'];
 
-                        return ListTile(
-                          leading: imageUrl != null
-                              ? Image.network(imageUrl, width: 50, height: 50)
-                              : Icon(Icons.image_not_supported),
-                          title: Text(titre, style: TextStyle(fontWeight: FontWeight.bold)),
-                          subtitle: Text('Taille : $taille\nPrix : $prix€', style: TextStyle(fontWeight: FontWeight.bold)),
-                          trailing: IconButton(
-                            icon: Icon(Icons.remove_circle_outline),
-                            onPressed: () => _retirerDuPanier(context, vetementId),
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.0),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 4.0,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            leading: imageUrl != null
+                                ? Image.network(imageUrl, width: 50, height: 50)
+                                : Icon(Icons.image_not_supported),
+                            title: Text(titre, style: TextStyle(fontWeight: FontWeight.bold)),
+                            subtitle: Text('Taille : $taille\nPrix : $prix€', style: TextStyle(fontWeight: FontWeight.bold)),
+                            trailing: IconButton(
+                              icon: Icon(Icons.remove_circle_outline),
+                              onPressed: () => _retirerDuPanier(context, vetementId),
+                            ),
                           ),
                         );
                       },

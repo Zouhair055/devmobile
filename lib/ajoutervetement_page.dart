@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert'; // Pour la conversion en base64
-import 'dart:html' as html; // Import spécifique pour Flutter Web
 import 'theme.dart'; // Importez le fichier theme.dart
 
 class AjouterVetementPage extends StatefulWidget {
