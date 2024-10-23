@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'VintedIA',
+          'VintedIA-Miage',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.deepPurple),
         ),
         centerTitle: true,
