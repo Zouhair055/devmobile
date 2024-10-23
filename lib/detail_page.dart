@@ -59,7 +59,7 @@ class DetailPage extends StatelessWidget {
                         : Icon(Icons.image_not_supported, size: 200),
                     SizedBox(height: 16),
                     // Encapsuler les détails dans un conteneur centré avec texte justifié à gauche
-                    Container(
+                    SizedBox(
                       width: double.infinity, // Pour que l'ensemble prenne toute la largeur
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start, // Alignement à gauche des détails

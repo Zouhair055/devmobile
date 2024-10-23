@@ -20,13 +20,13 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
   String? _imageBase64;
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    _image = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    _image = await picker.pickImage(source: ImageSource.gallery);
 
     if (_image != null) {
       // Lecture des données de l'image directement en base64 pour Flutter Web
       final bytes = await _image!.readAsBytes();
-      _imageBase64 = 'data:image/webp;base64,' + base64Encode(bytes);
+      _imageBase64 = 'data:image/webp;base64,${base64Encode(bytes)}';
 
       setState(() {
         _categorie = 'Pantalon';

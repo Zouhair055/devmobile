@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'login_page.dart'; // Assurez-vous que ce chemin d'importation est correct pour votre page de connexion
 import 'theme.dart';
 import 'detail_page.dart'; // Créez cette nouvelle page pour les détails
 import 'panier_page.dart'; // Assurez-vous que ce chemin d'importation est correct

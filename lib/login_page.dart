@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
       final userDocument = result.docs.first;
       final userData = userDocument.data() as Map<String, dynamic>;
-      if (userData == null || !userData.containsKey('email')) {
+      if (!userData.containsKey('email')) {
         setState(() {
           _errorMessage = 'Le champ "email" n\'existe pas dans le document.';
         });
@@ -138,13 +138,13 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 30),
                 ElevatedButton(
                   onPressed: () => _login(context),
-                  child: Text(
-                    'Se connecter',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     padding: EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: Text(
+                    'Se connecter',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                   ),
                 ),
                 SizedBox(height: 20),

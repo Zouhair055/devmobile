@@ -160,7 +160,7 @@ class _ProfilPageState extends State<ProfilPage> {
             child: SingleChildScrollView(
               child: Align(
                 alignment: Alignment.topCenter, // Alignement en haut au centre
-                child: Container(
+                child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8, // Limite la largeur pour centrer
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start, // Alignement à gauche des détails
