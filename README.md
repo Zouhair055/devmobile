@@ -13,6 +13,9 @@ Utilise ces identifiants pour te connecter à l'application.
         Login: angelina
         Password: 123456
 
+## Accès en ligne (hosting firebase) via ce lien :
+    - [Firbase-Vintedia](https://vintedia-app.web.app)
+
 ## Fonctionnalités
 #### Login Utilisateur : 
 Authentification via Firebase, avec un écran de connexion simple.
