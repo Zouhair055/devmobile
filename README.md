@@ -14,7 +14,8 @@ Utilise ces identifiants pour te connecter à l'application.
         Password: 123456
 
 ## Accès en ligne (hosting firebase) via ce lien :
-    - [Firbase-Vintedia](https://vintedia-app.web.app)
+
+   [Firbase-Vintedia](https://vintedia-app.web.app)
 
 ## Fonctionnalités
 #### Login Utilisateur : 
