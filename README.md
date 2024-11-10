@@ -7,19 +7,25 @@ et cette application  permet aussi de télécharger des images de vêtements et 
 ## Accès à l'Application (deux utilisateurs)
 Utilise ces identifiants pour te connecter à l'application.
 
-        **Login**: zouhair
-        **Password**: 123456
+        Login: zouhair
+        Password: 123456
 
-        **Login**: angelina
-        **Password**: 123456
+        Login: angelina
+        Password: 123456
 
 ## Fonctionnalités
-    -Login Utilisateur : Authentification via Firebase, avec un écran de connexion simple.
-    -Liste des Vêtements : Affichage des vêtements disponibles avec leurs informations (image, titre, taille, prix).
-    -Détail d'un Vêtement : Affichage complet d'un vêtement avec une option d'ajout au panier.
-    -Panier : Vue du panier avec possibilité de retirer un vêtement et mise à jour du total.
-    -Profil Utilisateur : Accès aux informations de profil (login, mot de passe, adresse, etc.) avec possibilité de modification.
-    -Ajouter un Vêtement : Ajout d'un vêtement via un formulaire dans le profil utilisateur.
+# Login Utilisateur : 
+Authentification via Firebase, avec un écran de connexion simple.
+# Liste des Vêtements : 
+Affichage des vêtements disponibles avec leurs informations (image, titre, taille, prix).
+# Détail d'un Vêtement : 
+Affichage complet d'un vêtement avec une option d'ajout au panier.
+# Panier : 
+Vue du panier avec possibilité de retirer un vêtement et mise à jour du total.
+# Profil Utilisateur : 
+Accès aux informations de profil (login, mot de passe, adresse, etc.) avec possibilité de modification.
+# Ajouter un Vêtement : 
+Ajout d'un vêtement via un formulaire dans le profil utilisateur.
 
 ## API GitHub
 L'API pour la catégorisation des vêtements est disponible sur GitHub ici : 
