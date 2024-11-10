@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert'; // Pour la conversion en base64
 import 'theme.dart'; // Importez le fichier theme.dart
+import 'package:http/http.dart' as http;
+
 
 class AjouterVetementPage extends StatefulWidget {
   @override
@@ -28,14 +30,43 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
       final bytes = await _image!.readAsBytes();
       _imageBase64 = 'data:image/webp;base64,${base64Encode(bytes)}';
 
-      setState(() {
-        _categorie = 'Pantalon';
-        print("Image sélectionnée et convertie en base64");
-      });
+      // Détecter la catégorie
+      await _detectCategory(_image!); // Appelez la méthode pour détecter la catégorie
+      print("Image sélectionnée et convertie en base64");
     } else {
       print("Aucune image sélectionnée");
     }
   }
+
+  Future<void> _detectCategory(XFile image) async {
+  final uri = Uri.parse('http://127.0.0.1:5000/predict'); // Utiliser l'IP locale obtenue
+  final imageBytes = await image.readAsBytes(); // Lire l'image en bytes
+
+  // Préparer la requête avec l'image en tant que fichier
+  final request = http.MultipartRequest('POST', uri);
+  request.files.add(http.MultipartFile.fromBytes(
+    'image', 
+    imageBytes,
+    filename: image.name,
+  ));
+
+  try {
+    final response = await request.send(); // Envoyer la requête
+    final responseBody = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      final output = jsonDecode(responseBody);
+      setState(() {
+        _categorie = output['category']; // Extraire la catégorie du JSON retourné
+      });
+      print('Catégorie détectée : $_categorie');
+    } else {
+      print('Erreur de détection de catégorie : ${response.reasonPhrase}');
+    }
+  } catch (e) {
+    print('Erreur lors de l\'appel API : $e');
+  }
+}
 
   void _ajouterVetement() async {
     // Définir la description à une chaîne vide
@@ -165,6 +196,14 @@ class _AjouterVetementPageState extends State<AjouterVetementPage> {
                     onPressed: _pickImage,
                     child: Text('Télécharger une Image'),
                   ),
+                  if (_categorie != null) // Afficher seulement si la catégorie est définie
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      child: Text(
+                        'Catégorie détectée : $_categorie',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: _ajouterVetement,
